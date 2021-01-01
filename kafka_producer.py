@@ -2,7 +2,7 @@ from kafka import KafkaProducer
 from kafka.admin import KafkaAdminClient
 import os
 from sheets_reader import SheetsReader
-from file_list import KafkaTopicCreator
+from kafka_topic_creator import KafkaTopicCreator
 
 class KafkaCustomProducer:
     """[Class to send data to kafka]
@@ -37,6 +37,7 @@ if __name__ == "__main__":
         sheet_reader = SheetsReader()
         sheets = kafka_topic_creator.get_list_of_sheets(os.getenv("DIR_ID"))
         for sheet in sheets:
+            print(sheet) # To check which sheets data is being printed
             kafka_producer.send_to_kafka(sheet.replace(" ",""),sheet_reader.get_data(sheet))
     except Exception as e:
         print("could not complete because ",e) 
