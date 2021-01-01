@@ -51,6 +51,10 @@ class KafkaTopicCreator:
             kafka_admin_client.create_topics(new_topics=topic_list, validate_only=False)
         except errors.TopicAlreadyExistsError as e:
             print(e)
+            pass
+        except Exception as e:
+            print("The program stopped as ", e)
+            pass
 
 if __name__ == "__main__":
     dir_id = os.getenv("DIR_ID") # google drive directory id
