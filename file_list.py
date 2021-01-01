@@ -39,10 +39,15 @@ class KafkaTopicCreator:
             res = getfilelist.GetFileList(resource)  # or r = getfilelist.GetFolderTree(resource)
             files=res["fileList"][0]["files"]
             # The files consist a list of dictionary for all files in directory 
-            sheets = [ each["name"].replace(" ","") for each in files if "sheet" in each["name"].lower() ]
+            sheets = [ each["name"] for each in files if "sheet" in each["name"].lower() ]
             return sheets
         except Exception as e:
             print("Process stopped as ",e)
+
+    def space_remover(_list:list):
+        expr = lambda x: x.replace(" ","")
+        space_removed = map(expr,_list)
+        return list(space_removed)
 
     def create_topics(self,sheet_names):
         try:
@@ -59,6 +64,7 @@ if __name__ == "__main__":
     )
     kafka_topic_creator = KafkaTopicCreator(kafka_admin_client)
     sheet_names = kafka_topic_creator.get_list_of_sheets(dir_id)
+    sheet_names = kafka_topic_creator.space_remover(sheet_names)
     existing_topics = kafka_admin_client.list_topics()
     new_sheets = set(sheet_names) - set(existing_topics) # need to create only new topics
     if new_sheets.__len__() !=0 :
