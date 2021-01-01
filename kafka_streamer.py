@@ -34,7 +34,7 @@ if __name__ == "__main__":
     kafka_streamer = KafkaStreamer()
     kafka_topic_creator = KafkaTopicCreator(KafkaAdminClient(
                 bootstrap_servers=os.getenv("BOOTSTRAP_SERVERS"), 
-                client_id='test')  
+                client_id=os.getenv("CLIENT_ID"))  
             )
     sheets = kafka_topic_creator.get_list_of_sheets(os.getenv("DIR_ID"))
     sheets = space_remover(sheets)

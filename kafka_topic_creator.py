@@ -60,7 +60,7 @@ if __name__ == "__main__":
     dir_id = os.getenv("DIR_ID") # google drive directory id
     kafka_admin_client = KafkaAdminClient(
             bootstrap_servers=os.getenv("BOOTSTRAP_SERVERS"), 
-            client_id='test'
+            client_id=os.getenv("CLIENT_ID")
     )
     kafka_topic_creator = KafkaTopicCreator(kafka_admin_client)
     sheet_names = kafka_topic_creator.get_list_of_sheets(dir_id)
