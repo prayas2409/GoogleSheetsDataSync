@@ -3,3 +3,4 @@ google_venv/
 creds
 token.json
 .env
+__pycache__/
