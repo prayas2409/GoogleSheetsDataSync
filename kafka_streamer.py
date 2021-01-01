@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from kafka.admin import KafkaAdminClient
-from file_list import KafkaTopicCreator
+from kafka_topic_creator import KafkaTopicCreator
 from utility import space_remover
 import os
 from dotenv import load_dotenv
@@ -12,7 +12,6 @@ class KafkaStreamer:
 
     def __init__(self):
         self.spark = SparkSession.builder.appName("kafkaStream").master("local[*]").getOrCreate()
-            # .config("spark.jars",)\
         self.spark.sparkContext.setLogLevel("ERROR")
 
     def stream(self,topics):
