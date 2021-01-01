@@ -1,6 +1,7 @@
 from google.oauth2 import service_account
 from getfilelistpy import getfilelist
 from kafka.admin import KafkaAdminClient, NewTopic
+from utility import space_remover
 from kafka import errors
 import os
 from dotenv import load_dotenv
@@ -44,11 +45,6 @@ class KafkaTopicCreator:
         except Exception as e:
             print("Process stopped as ",e)
 
-    def space_remover(_list:list):
-        expr = lambda x: x.replace(" ","")
-        space_removed = map(expr,_list)
-        return list(space_removed)
-
     def create_topics(self,sheet_names):
         try:
             topic_list = [ NewTopic(name=sheet, num_partitions=1, replication_factor=1) for sheet in sheet_names]
@@ -64,7 +60,7 @@ if __name__ == "__main__":
     )
     kafka_topic_creator = KafkaTopicCreator(kafka_admin_client)
     sheet_names = kafka_topic_creator.get_list_of_sheets(dir_id)
-    sheet_names = kafka_topic_creator.space_remover(sheet_names)
+    sheet_names = space_remover(sheet_names)
     existing_topics = kafka_admin_client.list_topics()
     new_sheets = set(sheet_names) - set(existing_topics) # need to create only new topics
     if new_sheets.__len__() !=0 :
