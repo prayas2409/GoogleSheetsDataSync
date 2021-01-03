@@ -45,7 +45,12 @@ class KafkaTopicCreator:
         except Exception as e:
             print("Process stopped as ",e)
 
-    def create_topics(self,sheet_names):
+    def create_topics(self,sheet_names:list):
+        """[summary]
+
+        Args:
+            sheet_names ([list]): [It consist list of sheet names as str]
+        """        
         try:
             topic_list = [ NewTopic(name=sheet, num_partitions=1, replication_factor=1) for sheet in sheet_names]
             kafka_admin_client.create_topics(new_topics=topic_list, validate_only=False)
