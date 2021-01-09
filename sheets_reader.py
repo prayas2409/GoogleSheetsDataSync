@@ -26,14 +26,16 @@ class SheetsReader:
             [list]: [Data read from the given sheet]
         """        
         # get the instance of the Spreadsheet
+        records = []
         sheet = self.client.open(sheet_name)
-        sheet_instance = sheet.get_worksheet(0)
-        records_data = sheet_instance.get_all_records()
-        return records_data
-
+        sheets = sheet.worksheets()
+        for each in sheets:
+            records.append(each.get_all_records())
+        return records
 
 if __name__== "__main__":
     sheet_reader = SheetsReader()
     sheet = "DEMO Sheets"
+    print("getting data")
     data = sheet_reader.get_data(sheet)
     print(data)
